@@ -61,7 +61,7 @@ export function EditJobScreen({ route, navigation }: Props) {
           if (!alive) return;
           const j = data as Job;
           setJob(j);
-          setDescription(j.description);
+          setDescription(j.taskDescription);
           setAssigneeIds((j.assignees ?? []).map((a) => a.id));
           setStatus(j.status);
           setDueDate(j.dueDate ? j.dueDate.slice(0, 10) : null);
@@ -88,7 +88,7 @@ export function EditJobScreen({ route, navigation }: Props) {
 
     // ส่งเฉพาะฟิลด์ที่เปลี่ยนจริง — กันการเขียนทับค่าเดิมโดยไม่ตั้งใจ และไม่ยิงแจ้งเตือน "มอบหมายใหม่" ซ้ำ
     const patch: Parameters<typeof updateJob>[2] = {};
-    if (description.trim() !== job.description) patch.description = description.trim();
+    if (description.trim() !== job.taskDescription) patch.taskDescription = description.trim();
     if (status !== job.status) patch.status = status;
 
     const originalDue = job.dueDate ? job.dueDate.slice(0, 10) : null;
@@ -137,9 +137,9 @@ export function EditJobScreen({ route, navigation }: Props) {
         <ScrollView contentContainerStyle={[styles.content, isDesktop && styles.contentDesktop]}>
           {/* ข้อมูลที่แก้ไม่ได้ — โชว์ไว้ให้รู้ว่ากำลังแก้ใบงานไหนอยู่ */}
           <View style={styles.metaCard}>
-            <MetaCell label="เลขที่" value={`#${job.code}`} mono />
+            <MetaCell label="เลขที่" value={`#${job.jobID}`} mono />
             <MetaCell label="ห้อง" value={job.room ?? "-"} mono />
-            <MetaCell label="วันที่แจ้ง" value={new Date(job.createdAt).toLocaleDateString("th-TH")} mono />
+            <MetaCell label="วันที่แจ้ง" value={new Date(job.requestDate).toLocaleDateString("th-TH")} mono />
             <MetaCell label="โซน" value={job.property ?? "-"} mono />
           </View>
 

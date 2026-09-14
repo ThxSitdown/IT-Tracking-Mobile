@@ -53,7 +53,7 @@ export function AddJobScreen({ navigation }: Props) {
     setLoading(true);
     try {
       await createJob(activeHotelId, {
-        description: description.trim(),
+        taskDescription: description.trim(),
         requestedBy: requestedBy.trim(),
         taskType: taskType.trim(),
         room: room.trim() || undefined,

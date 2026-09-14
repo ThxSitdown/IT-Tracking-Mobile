@@ -18,15 +18,17 @@ export type JobAssignee = { id: string; name: string };
 
 export type Job = {
   id: string;
-  code: string;
-  description: string;
+  /** รหัสใบงานที่คนอ่านได้ เช่น "Jun004" — คนละตัวกับ id ที่เป็นรหัสสุ่มของระบบ */
+  jobID: string;
+  taskDescription: string;
   requestedBy: string;
   taskType: string;
   room: string | null;
   property: string | null;
   status: JobStatus;
   dueDate: string | null;
-  createdAt: string;
+  /** วันที่แจ้งงาน — ระบบบันทึกให้อัตโนมัติตอนสร้างใบงาน */
+  requestDate: string;
   // 1 ใบงานมอบหมายได้หลายคน — เรียงตามลำดับที่ถูกเพิ่มเข้ามา (คนแรกสุดขึ้นก่อน)
   assignees: JobAssignee[];
   photos?: JobPhoto[]; // มาเฉพาะตอนดึงใบงานเดียว (getJob) ไม่ได้มากับรายการ
@@ -112,7 +114,7 @@ export function getJob(hotelId: string, jobId: string) {
 export function createJob(
   hotelId: string,
   data: {
-    description: string;
+    taskDescription: string;
     requestedBy: string;
     taskType: string;
     room?: string;
@@ -138,7 +140,7 @@ export function setJobAssignees(hotelId: string, jobId: string, assigneeIds: str
 export type UpdateJobInput = Partial<{
   status: JobStatus;
   dueDate: string | null; // ส่ง null เพื่อล้างวันที่เสร็จ
-  description: string;
+  taskDescription: string;
   room: string;
   property: string;
 }>;

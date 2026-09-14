@@ -13,11 +13,11 @@ export function TicketCard({ job, onPress }: { job: Job; onPress: () => void }) 
   return (
     <PressableScale onPress={onPress} style={[styles.card, { borderLeftColor: stripColor }]}>
       <View style={styles.headRow}>
-        <Text style={styles.code}>#{job.code}</Text>
+        <Text style={styles.code}>#{job.jobID}</Text>
         <StatusBadge status={job.status} />
       </View>
       <Text style={styles.desc} numberOfLines={2}>
-        {job.description}
+        {job.taskDescription}
       </Text>
       <View style={styles.metaRow}>
         <Text style={styles.metaText}>

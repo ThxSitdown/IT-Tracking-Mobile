@@ -36,8 +36,8 @@ type Props = NativeStackScreenProps<RootStackParamList, "JobDetail">;
 
 type JobDetailData = {
   id: string;
-  code: string;
-  description: string;
+  jobID: string;
+  taskDescription: string;
   requestedBy: string;
   room: string | null;
   property: string | null;
@@ -45,7 +45,7 @@ type JobDetailData = {
   status: "ON_PROCESS" | "DONE" | "CANCELLED";
   dueDate: string | null;
   photos: { id: string; url: string; createdAt: string }[];
-  createdAt: string;
+  requestDate: string;
   assignees: { id: string; name: string }[];
   subtasks: { id: string; title: string; done: boolean }[];
   notes: { id: string; body: string; createdAt: string; author: { name: string } }[];
@@ -129,7 +129,7 @@ export function JobDetailPanel({
   function handleDeleteJob() {
     showDialog(
       "ลบงานนี้ถาวร?",
-      `งาน #${job?.code} รวมถึงเช็คลิสต์และบันทึกทั้งหมดจะถูกลบ กู้คืนไม่ได้ — ยืนยันไหม?`,
+      `งาน #${job?.jobID} รวมถึงเช็คลิสต์และบันทึกทั้งหมดจะถูกลบ กู้คืนไม่ได้ — ยืนยันไหม?`,
       [
         { text: "ไม่ลบ", style: "cancel" },
         {
@@ -229,8 +229,8 @@ export function JobDetailPanel({
       <FadeInView style={styles.card}>
         <View style={styles.rowBetween}>
           <View>
-            <Text style={styles.code}>#{job.code}</Text>
-            <Text style={styles.meta}>แจ้งเมื่อ {new Date(job.createdAt).toLocaleString("th-TH")}</Text>
+            <Text style={styles.code}>#{job.jobID}</Text>
+            <Text style={styles.meta}>แจ้งเมื่อ {new Date(job.requestDate).toLocaleString("th-TH")}</Text>
           </View>
           <View style={styles.headActions}>
             <StatusBadge status={job.status} />
@@ -239,7 +239,7 @@ export function JobDetailPanel({
             </Pressable>
           </View>
         </View>
-        <Text style={styles.description}>{job.description}</Text>
+        <Text style={styles.description}>{job.taskDescription}</Text>
         <View style={styles.metaGrid}>
           <MetaItem label="แจ้งโดย" value={job.requestedBy} />
           <MetaItem label="ห้อง / โซน" value={`${job.room ?? "-"} · ${job.property ?? "-"}`} />
